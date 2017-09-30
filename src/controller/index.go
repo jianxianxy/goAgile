@@ -10,7 +10,7 @@ import (
 
 
 //首页
-func Index(rp http.ResponseWriter, rq *http.Request) {
+func IndexIndex(rp http.ResponseWriter, rq *http.Request) {
 	rp.Header().Set("Content-Type", "text/html")
 	//调用模版
 	view, err := template.ParseFiles(config.Get("ROOT_PATH") + "static/view/index.html")
@@ -24,7 +24,7 @@ func Index(rp http.ResponseWriter, rq *http.Request) {
 }
 
 //搜索 输出 json
-func Search(rp http.ResponseWriter, rq *http.Request) {
+func IndexSearch(rp http.ResponseWriter, rq *http.Request) {
 
     fmt.Println(config.GetGmanConf())
     

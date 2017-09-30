@@ -23,6 +23,3 @@ func GetGmanConf() map[string]string{
     gman_conf["charset"] = "utf8"
     return gman_conf
 }
-
-
-
