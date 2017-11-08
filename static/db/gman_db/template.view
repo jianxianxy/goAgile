@@ -1,0 +1,6 @@
+[col:id,td:1,width:80,form:0,name:ID]
+[col:name,td:2,width:220,form:1,type:input,name:名称]
+[col:content,td:0,form:2,type:text,name:内容]
+[col:user_id,td:3,width:120,form:3,type:select,name:用户ID,outdata:(from:user,key:id,val:name)]
+[col:status,td:4,width:100,form:4,type:radio,name:状态,data:(0:禁用,1:启用)]
+[col:created_at,td:5,width:220,form:0,name:创建时间]

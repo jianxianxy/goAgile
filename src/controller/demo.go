@@ -1,6 +1,8 @@
 package controller
 
 import (
+    "config"
+    "lib/unit"
 	"net/http"
     "fmt"
 )
@@ -32,5 +34,7 @@ func (obj *ClassDemo) index(){
 }
 
 func (obj *ClassDemo) demo() {
-    fmt.Fprint(obj.rp, "demo")
+    file := config.Get("ROOT_PATH") + "static/layout/template.conf"
+    param := unit.GetParam(file,"form")
+    fmt.Fprint(obj.rp, param)
 }
