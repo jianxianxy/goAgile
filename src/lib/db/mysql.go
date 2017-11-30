@@ -19,7 +19,7 @@ func (conn *Mysql) GetConn(info map[string]string) {
 }
 
 //插入
-func (conn *Mysql) Insert(table string,data map[string]interface{}) int{
+func (conn Mysql) Insert(table string,data map[string]interface{}) int{
     var col,_col string
     var din []interface{}
     for key,val := range data{
@@ -37,7 +37,7 @@ func (conn *Mysql) Insert(table string,data map[string]interface{}) int{
 }
 
 //查询
-func (conn *Mysql) GetRow(sql string) []map[string]string{
+func (conn Mysql) GetRow(sql string) []map[string]string{
 	rows, err := conn.db.Query(sql)
 	checkErr(err)
 	//字典类型
@@ -67,7 +67,7 @@ func (conn *Mysql) GetRow(sql string) []map[string]string{
 }
 
 //更新数据
-func (conn *Mysql) Update(table string,data map[string]interface{},wdata map[string]interface{}) int{
+func (conn Mysql) Update(table string,data map[string]interface{},wdata map[string]interface{}) int{
     var col,where string
     var cval []interface{}
     for key,val := range data{
@@ -88,7 +88,7 @@ func (conn *Mysql) Update(table string,data map[string]interface{},wdata map[str
 }
 
 //删除数据
-func (conn *Mysql) Remove(table string,wdata map[string]interface{}) int{
+func (conn Mysql) Remove(table string,wdata map[string]interface{}) int{
     var where string
     var cval []interface{}
     for key,val := range wdata{
