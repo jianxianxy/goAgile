@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<title>表格操作 - layui</title>
+
+<link rel="stylesheet" href="dist/css/layui.css">
+
+<style>
+body{padding: 20px; /*overflow-y: scroll;*/}
+</style>
+</head>
+<body>
+
+<table id="test2" lay-filter="test2"></table>
+
+
+<script src="dist/layui.js" charset="utf-8"></script>
+<script>
+layui.use('table', function(){
+  var table = layui.table;
+  
+  table.render({
+    elem: '#test2'
+    ,url: 'examples/json/table/demo1.json'
+    ,page: { //详细参数可参考 laypage 组件文档
+      curr: 5
+      ,layout: ['limit', 'prev', 'page', 'next', 'count','skip'] //自定义分页布局
+    }
+    ,cellMinWidth: 80
+    ,cols: [[
+      {type:'numbers'}
+      ,{type: 'checkbox'}
+      ,{field:'id', title:'ID', unresize: true, sort: true}
+      ,{field:'username', title:'用户名', templet: '#usernameTpl'}
+      ,{field:'email', title:'邮箱'}
+      ,{field:'sex', title:'性别', templet: '#switchTpl', minWidth: 85, align:'center'}
+      ,{field:'lock', title:'是否锁定', templet: '#checkboxTpl', minWidth: 110, align:'center'}
+      ,{field:'city', title:'城市'}
+    ]]
+  });
+});
+</script>
+</body>
+</html>

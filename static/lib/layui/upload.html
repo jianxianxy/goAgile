@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>文件上传模块 - layui</title>
+
+<link rel="stylesheet" href="src/css/layui.css">
+
+<style>
+body{padding: 50px 100px;}
+.layui-upload-img{width: 92px; height: 92px; margin: 0 10px 10px 0;}
+hr{margin: 30px 0;}
+</style>
+</head>
+<body>
+
+<div class="layui-upload">
+  <button type="button" class="layui-btn" id="test1">上传图片</button>
+  
+  <div class="layui-upload-list">
+    <img class="layui-upload-img" src="" id="demo1">
+    <p id="demoText"></p>
+  </div>
+</div>
+
+<script src="src/layui.js"></script>
+<script>
+layui.use('upload', function(){
+  var upload = layui.upload;
+
+  upload.render({
+    elem: '#test1'
+    ,url: '/upload/'
+    //,size: 60 //限制文件大小，单位 KB
+    ,accept: 'file'
+    ,exts: "jpg|png|gif|bmp|jpeg|pdf"
+    ,before: function(obj){
+      //预读本地文件示例，不支持ie8
+      
+    }
+    ,done: function(res){
+      //如果上传失败
+      if(res.code > 0){
+        return layer.msg('上传失败');
+      }
+      //上传成功
+    }
+    ,error: function(){
+      return layer.msg('上传失败');
+    }
+  });
+  
+});
+</script>
+</body>
+</html>

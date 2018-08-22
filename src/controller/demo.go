@@ -17,6 +17,7 @@ type ClassDemo struct{
 func Demo(reponse http.ResponseWriter, request *http.Request){
     claDemo := &ClassDemo{rp:reponse,rq:request}
     query := request.URL.Query()
+    fmt.Println(query)
     act := query.Get("f")
     switch act{
         case "index":
@@ -34,7 +35,7 @@ func (obj *ClassDemo) index(){
 }
 
 func (obj *ClassDemo) demo() {
-    file := config.Get("ROOT_PATH") + "static/layout/template.conf"
+    file := config.Get("ROOT_PATH") + "static/db/gman_db/template.view"
     param := unit.GetParam(file,"form")
-    fmt.Fprint(obj.rp, param)
+    fmt.Println(param)
 }

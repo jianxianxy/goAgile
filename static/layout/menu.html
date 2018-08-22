@@ -1,22 +1,111 @@
 {{define "menu"}}
-<ul class="sidebar-menu" data-widget="tree">
-   <li class="header">菜单</li>
-   <!-- Optionally, you can add icons to the links -->
-   <li class="treeview">
-     <a href="#"><i class="fa fa-list"></i> <span>设置</span>
-       <span class="pull-right-container">
-           <i class="fa fa-angle-left pull-right"></i>
-         </span>
-     </a>
-     <ul class="treeview-menu">
-       <li><a href="#"><i class="fa fa-circle-o text-yellow"></i>新建功能</a></li>
-       <li><a href="#"><i class="fa fa-circle-o text-aqua"></i>功能维护</a></li>
-     </ul>
-   </li>
-	<li>
-		<a href="/cache/index">
-			<i class="fa fa-database"></i> <span>缓存管理</span>
-		</a>
-	</li>
-</ul>
+<!--_menu 作为公共模版分离出去-->
+<aside class="Hui-aside">
+    <div class="menu_dropdown bk_2" id="Amenu">
+        <dl>
+            <dt>
+                <i class="Hui-iconfont mr-5">&#xe62d;</i>用户管理
+                <i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dd>
+                <ul>
+                    <li><a href="/User/Manager/Index" title="管理员列表">管理员列表</a></li>
+                    <li><a href="/User/Manager/Role" title="角色管理">角色管理</a></li>
+                </ul>
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                <i class="Hui-iconfont mr-5">&#xe62e;</i>系统管理
+                <i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dd>
+                <ul>
+                    <li><a href="/Index/System/Menu" title="菜单管理">菜单管理</a></li>
+                    <li><a href="/Index/System/Icon" title="系统图标">系统图标</a></li>
+                </ul>
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                <i class="Hui-iconfont mr-5">&#xe60d;</i>会员管理
+                <i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dd>
+                <ul>
+                    <li><a href="/User/User/Index" title="会员列表">会员列表</a></li>
+                </ul>
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                <i class="Hui-iconfont mr-5">&#xe616;</i>内容管理
+                <i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dd>
+                <ul>
+                    <li><a href="/Cms/Article/Index" title="资讯管理">资讯管理</a></li>
+                </ul>
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                <i class="Hui-iconfont mr-5">&#xe613;</i>图片管理
+                <i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dd>
+                <ul>
+                    <li><a href="/Cms/Picture/Index" title="图片管理">图片管理</a></li>
+                </ul>
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                <i class="Hui-iconfont mr-5">&#xe620;</i>产品管理
+                <i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dd>
+                <ul>
+                    <li><a href="/Product/Product/Index" title="产品管理">产品管理</a></li>
+                    <li><a href="/Product/Category/Index" title="分类管理">分类管理</a></li>
+                    <li><a href="/Product/Brand/Index" title="品牌管理">品牌管理</a></li>
+                </ul>
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                <i class="Hui-iconfont mr-5">&#xe622;</i>评论管理
+                <i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dd>
+                <ul>
+                    <li><a href="/Cms/Article/Feedback" title="意见反馈">意见反馈</a></li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+</aside>
+<div class="dislpayArrow hidden-xs">
+    <a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a>
+</div>
+<script>function menuSel() {
+        var url = location.href;
+        var urlReg = /http:\/\/([^\/]+)/i;
+        domain = url.match(urlReg);
+        url = url.replace(domain[0], "");
+        url = url.replace(/^\/|\/$/, "");
+        urlArr = url.split("/");
+        if (urlArr[0].indexOf(".") > 0) {
+            var menu1 = urlArr[1];
+            var menu2 = urlArr[2];
+        } else {
+            var menu1 = urlArr[0];
+            var menu2 = urlArr[1];
+        }
+        var search = menu1 + '/' + menu2;
+        $("#Amenu a").each(function() {
+            if ($(this).attr("href").indexOf(search) >= 0) {
+                var dd = $(this).parent().parent().parent();
+                dd.attr("style", "display: block;");
+                dd.prev().attr("class", "selected");
+            }
+        });
+    }
+    $(function() {
+        menuSel();
+    });
+</script>
 {{end}}

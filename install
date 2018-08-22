@@ -13,6 +13,7 @@ export GOPATH="$CURDIR"
 
 go install config
 go install controller
+go install lib/tpe
 go install lib/db
 go build server.go
 

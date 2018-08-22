@@ -65,3 +65,26 @@ func ConfigMap(data []string,mod string) []map[string]string{
         return colMap[1:]
     }
 }
+//获取表单额外参数
+func GetExtData(col []map[string]string) map[string]map[string]string{
+    retForm := make(map[string]map[string]string)
+    for _,v := range col{
+        data,have := v["data"]
+        if have{
+            retForm[v["col"]] = FmtRadio(data)
+        }
+    }
+    return retForm  
+}
+//Radio
+func FmtRadio(data string) map[string]string{
+    repExg,_ := regexp.Compile(`\(|\)`)
+    str := repExg.ReplaceAllString(data, "")
+    kv := strings.Split(str,"|")
+    ret := make(map[string]string)
+    for j := range kv{
+        kvarr := strings.Split(kv[j],"=")
+        ret[kvarr[0]] = kvarr[1]
+    }
+    return ret
+}

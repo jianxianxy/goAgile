@@ -1,123 +1,50 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Go Agile</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="/static/admin/bower_components/bootstrap/dist/css/bootstrap.min.css">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="/static/admin/bower_components/font-awesome/css/font-awesome.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="/static/admin/bower_components/Ionicons/css/ionicons.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="/static/admin/dist/css/AdminLTE.min.css">
-  <link rel="stylesheet" href="/static/admin/dist/css/skins/skin-blue.min.css">
+{{template "head" .}}	
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
-
-  <!-- Main Header -->
-  {{template "header"}}	
-  <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
-
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-
-      <!-- search form (Optional) -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
-          <span class="input-group-btn">
-              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-              </button>
-            </span>
-        </div>
-      </form>
-      <!-- /.search form -->
-
-      <!-- Sidebar Menu -->
-	  {{template "menu"}}	
-	  <!-- /.sidebar-menu -->
-	
-    </section>
-    <!-- /.sidebar -->
-  </aside>
-
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-home"></i> 首页</a></li>
-        <li class="active">Here</li>
-      </ol>
+<body>
+{{template "top"}}
+{{template "menu"}}	
+<section class="Hui-article-box">
+    <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="/" class="maincolor">首页</a> 
+        <span class="c-999 en">&gt;</span>
+        <span class="c-666">我的桌面</span> 
+        <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+    <div class="Hui-article">
+        <article class="cl pd-20">
+            <p class="f-20 text-success">欢迎使用</p>
+            <table class="table table-border table-bordered table-bg mt-20">
+                <thead>
+                    <tr>
+                        <th colspan="2" scope="col">服务器信息</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th width="30%">服务器计算机名</th>
+                        <td><span id="lbServerName">http://127.0.0.1/</span></td>
+                    </tr>
+                    <tr>
+                        <td>服务器IP地址</td>
+                        <td>192.168.1.1</td>
+                    </tr>
+                    <tr>
+                        <td>服务器域名</td>
+                        <td>www.h-ui.net</td>
+                    </tr>
+                    <tr>
+                        <td>服务器端口 </td>
+                        <td>80</td>
+                    </tr>
+                </tbody>
+            </table>
+        </article>
+        <footer class="footer">
+            <p>感谢jQuery、layer、laypage、Validform、UEditor、My97DatePicker、iconfont、Datatables、WebUploaded、icheck、highcharts、bootstrap-Switch<br> Copyright &copy;2015 H-ui.admin v3.0 All Rights Reserved.<br> 本后台系统由<a href="http://www.h-ui.net/" target="_blank" title="H-ui前端框架">H-ui前端框架</a>提供前端技术支持</p>
+        </footer>
     </div>
-	
-    <!-- Main content -->
-    <section class="content">
-
-	  <div class="col-sm-12">
-	    <div class="box box-info">
-		<div class="box-header with-border">
-		  <h3 class="box-title">缓存管理</h3>
-		</div>
-		<!-- /.box-header -->
-		<!-- form start -->
-		<form class="form-horizontal">
-		  <div class="box-body">
-			<div class="form-group">
-			  <label for="redis" class="col-sm-1 control-label">Redis</label>
-			  <div class="col-sm-6">
-				<input class="form-control" id="redis" name="redis" type="input">
-			  </div>
-			  <div class="col-sm-5">
-				<div class="btn-group">
-                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    选择 <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                  </ul>
-                </div>
-				<button type="button" class="btn btn-default">查询</button>
-				<button type="button" class="btn btn-default">删除</button>
-			  </div>
-			</div>
-			
-		  </div>
-		  <!-- /.box-body -->
-		  <!-- /.box-footer -->
-		</form>
-	    </div>
-      </div>
-
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-
-  <!-- Main Footer -->
-  <footer class="main-footer"></footer>
-
-  
-  <!-- Add the sidebar's background. This div must be placed
-  immediately after the control sidebar -->
-  <div class="control-sidebar-bg"></div>
-</div>
-<!-- ./wrapper -->
-
-<!-- REQUIRED JS SCRIPTS -->
-
-<!-- jQuery 3 -->
-<script src="/static/admin/bower_components/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap 3.3.7 -->
-<script src="/static/admin/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- AdminLTE App -->
-<script src="/static/admin/dist/js/adminlte.min.js"></script>
+</section>
+{{template "foot"}}
 </body>
 </html>

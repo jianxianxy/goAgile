@@ -20,7 +20,6 @@ func main(){
 
 //路由
 func routeHandler() {
-
 	http.HandleFunc("/", controller.IndexIndex)
 	http.HandleFunc("/Index/Search", controller.IndexSearch)
     http.HandleFunc("/Demo", controller.Demo)

@@ -1,8 +1,8 @@
 package controller
 
 import (
+    "lib/tpe"
 	"config"
-	"html/template"
 	"net/http"
     "encoding/json"  
     "fmt"
@@ -13,15 +13,9 @@ import (
 func IndexIndex(rp http.ResponseWriter, rq *http.Request) {
 	rp.Header().Set("Content-Type", "text/html")
 	//调用模版
-	view, err := template.ParseFiles(
-        config.Get("ROOT_PATH") + "static/view/index.html",
-        config.Get("ROOT_PATH") + "static/layout/header.html",
-        config.Get("ROOT_PATH") + "static/layout/menu.html")
-	if err != nil {
-		http.Error(rp, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	view := tpe.Assign(config.Get("ROOT_PATH") + "static/view/index.html");
 	locals := make(map[string]interface{})
+    locals["title"] = "Admin 3.0"
 	locals["info"] = []string{}
 	view.Execute(rp, locals)
 }

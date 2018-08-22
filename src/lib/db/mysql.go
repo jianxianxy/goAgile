@@ -8,7 +8,7 @@ import (
 
 type Mysql struct{
     db *sql.DB
-}
+} 
 
 
 //创建数据库连接
