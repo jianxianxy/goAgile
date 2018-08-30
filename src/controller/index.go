@@ -7,20 +7,40 @@ import (
     "encoding/json"  
 )
 
+//路由分发
+func IndexRun(reponse http.ResponseWriter, request *http.Request){
+    claIndex := &Index{rp:reponse,rq:request}
+    query := request.URL.Query()
+    act := query.Get("f")    
+    switch act{
+        case "index":
+            claIndex.index()
+        case "json":
+            claIndex.json()
+        default:
+            claIndex.index()    
+    }
+    
+}
+//基类
+type Index struct{
+    rp http.ResponseWriter
+    rq *http.Request
+}
 
 //首页
-func IndexIndex(rp http.ResponseWriter, rq *http.Request) {
-	rp.Header().Set("Content-Type", "text/html")
+func (obj *Index) index(){
+	obj.rp.Header().Set("Content-Type", "text/html")
 	//调用模版
 	view := tpe.Assign("index/index.html");
 	locals := make(map[string]interface{})
     locals["title"] = "Admin 3.0"
 	locals["info"] = []string{}
-	view.Execute(rp, locals)
+	view.Execute(obj.rp, locals)
 }
 
 //搜索 输出 json
-func IndexSearch(rp http.ResponseWriter, rq *http.Request) { 
+func (obj *Index) json() { 
 	type Road struct {  
         Name   string  
         Number int  
@@ -31,5 +51,5 @@ func IndexSearch(rp http.ResponseWriter, rq *http.Request) {
     }  
   
     ret, _ := json.Marshal(roads)
-    fmt.Fprint(rp, string(ret))
+    fmt.Fprint(obj.rp, string(ret))
 }
