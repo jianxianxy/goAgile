@@ -1,11 +1,10 @@
 package controller
 
 import (
+    "fmt"
     "lib/tpe"
-	"config"
 	"net/http"
     "encoding/json"  
-    "fmt"
 )
 
 
@@ -13,7 +12,7 @@ import (
 func IndexIndex(rp http.ResponseWriter, rq *http.Request) {
 	rp.Header().Set("Content-Type", "text/html")
 	//调用模版
-	view := tpe.Assign(config.Get("ROOT_PATH") + "static/view/index.html");
+	view := tpe.Assign("index/index.html");
 	locals := make(map[string]interface{})
     locals["title"] = "Admin 3.0"
 	locals["info"] = []string{}
@@ -21,10 +20,7 @@ func IndexIndex(rp http.ResponseWriter, rq *http.Request) {
 }
 
 //搜索 输出 json
-func IndexSearch(rp http.ResponseWriter, rq *http.Request) {
-
-    fmt.Println(config.GetGmanConf())
-    
+func IndexSearch(rp http.ResponseWriter, rq *http.Request) { 
 	type Road struct {  
         Name   string  
         Number int  

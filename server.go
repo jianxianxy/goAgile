@@ -22,5 +22,5 @@ func main(){
 func routeHandler() {
 	http.HandleFunc("/", controller.IndexIndex)
 	http.HandleFunc("/Index/Search", controller.IndexSearch)
-    http.HandleFunc("/Demo", controller.Demo)
+    http.HandleFunc("/Demo", controller.DemoRun)
 }

@@ -1,41 +1,54 @@
 package controller
 
 import (
-    "config"
-    "lib/unit"
-	"net/http"
     "fmt"
+    "config"
+	"net/http"
+    "encoding/json"  
 )
 
-//基类
-type ClassDemo struct{
-    rp http.ResponseWriter
-    rq *http.Request    
-}
-
 //路由分发
-func Demo(reponse http.ResponseWriter, request *http.Request){
-    claDemo := &ClassDemo{rp:reponse,rq:request}
+func DemoRun(reponse http.ResponseWriter, request *http.Request){
+    claDemo := &Demo{rp:reponse,rq:request}
     query := request.URL.Query()
-    fmt.Println(query)
-    act := query.Get("f")
+    act := query.Get("f")    
     switch act{
         case "index":
             claDemo.index()
-        case "demo":
-            claDemo.demo()
+        case "json":
+            claDemo.json()
+        case "table":
+            claDemo.table()
         default:
             claDemo.index()    
     }
     
 }
-
-func (obj *ClassDemo) index(){
-    fmt.Fprint(obj.rp, "index")
+//基类
+type Demo struct{
+    rp http.ResponseWriter
+    rq *http.Request
 }
 
-func (obj *ClassDemo) demo() {
-    file := config.Get("ROOT_PATH") + "static/db/gman_db/template.view"
-    param := unit.GetParam(file,"form")
-    fmt.Println(param)
+func (obj *Demo) index(){
+    fmt.Fprint(obj.rp,"index")
+}
+
+func (obj *Demo) json() {
+	type Road struct {  
+        Name   string  
+        Number int  
+    }  
+    roads := []Road{  
+        {"Diamond Fork", 29},  
+        {"Sheep Creek", 51},  
+    }  
+    ret, _ := json.Marshal(roads)
+    fmt.Fprint(obj.rp, string(ret))
+}
+
+func (obj *Demo) table(){
+    mysql := config.DbGman()
+    r := mysql.GetRow("SHOW TABLES")
+    fmt.Fprint(obj.rp, r)
 }
