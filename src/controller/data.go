@@ -32,15 +32,20 @@ func (obj *Data) Json() {
 	y1 := [12]float32{2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3}
 	y2 := [12]float32{2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3}
 
+	markLine := make(map[string]interface{})
+	var lineCol = map[string]string{"type": "average", "name": "平均值"}
+	markLine["data"] = []map[string]string{lineCol}
 	var yAxis [2]interface{}
 	yAxis0 := make(map[string]interface{})
 	yAxis0["name"] = "蒸发量"
 	yAxis0["type"] = "bar"
 	yAxis0["data"] = y1
+	yAxis0["markLine"] = markLine
 	yAxis1 := make(map[string]interface{})
 	yAxis1["name"] = "降水量"
 	yAxis1["type"] = "bar"
 	yAxis1["data"] = y2
+	yAxis1["markLine"] = markLine
 
 	yAxis[0] = yAxis0
 	yAxis[1] = yAxis1

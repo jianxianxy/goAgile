@@ -4,13 +4,13 @@
 */
 package config
 
-import(
-    "lib/db"
+import (
+	"lib/db"
 )
 
 var Config = map[string]string{
-	"ROOT_PATH": "/home/www/go/goAgile/",          //安装目录(绝对路径)
-    "ROOT_VIEW": "/home/www/go/goAgile/view/",     //视图目录
+	"ROOT_PATH": "/home/www/go/goAgile/",      //安装目录(绝对路径)
+	"ROOT_VIEW": "/home/www/go/goAgile/view/", //视图目录
 }
 
 //获取配置信息的
@@ -18,15 +18,45 @@ func Get(set string) string {
 	return Config[set]
 }
 
+//数据库链接（单例模式）
+type dbStru struct {
+	dbcsn db.Mysql
+}
+
 //gman数据库
-func DbGman() db.Mysql{
-    gman_conf := make(map[string]string)
-    gman_conf["dbhost"] = "tcp(9.9.9.9:3306)"
-    gman_conf["dbuser"] = "root"
-    gman_conf["dbpass"] = "123456"
-    gman_conf["dbname"] = "gman_db"
-    gman_conf["charset"] = "utf8"
-    var mysql db.Mysql
-    mysql.GetConn(gman_conf)
-    return mysql
+var dbGman *dbStru
+
+func DbGman() db.Mysql {
+	if dbGman == nil {
+		var dbc db.Mysql
+		gman_conf := make(map[string]string)
+		gman_conf["dbhost"] = "tcp(9.9.9.9:3306)"
+		gman_conf["dbuser"] = "root"
+		gman_conf["dbpass"] = "123456"
+		gman_conf["dbname"] = "gman_db"
+		gman_conf["charset"] = "utf8"
+		dbc.GetConn(gman_conf)
+		dbGman = &dbStru{}
+		dbGman.dbcsn = dbc
+	}
+	return dbGman.dbcsn
+}
+
+//spider数据库
+var dbCspi *dbStru
+
+func DbSpider() db.Mysql {
+	if dbCspi == nil {
+		var dbc db.Mysql
+		spider_conf := make(map[string]string)
+		spider_conf["dbhost"] = "tcp(9.9.9.9:3306)"
+		spider_conf["dbuser"] = "root"
+		spider_conf["dbpass"] = "123456"
+		spider_conf["dbname"] = "spider_db"
+		spider_conf["charset"] = "utf8"
+		dbc.GetConn(spider_conf)
+		dbCspi = &dbStru{}
+		dbCspi.dbcsn = dbc
+	}
+	return dbCspi.dbcsn
 }
