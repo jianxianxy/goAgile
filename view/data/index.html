@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+{{template "head" .}}	
+</head>
+<body>
+{{template "top"}}
+{{template "menu"}}	
+<section class="Hui-article-box">
+    <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="/" class="maincolor">首页</a> 
+        <span class="c-999 en">&gt;</span>
+        <span class="c-666">我的桌面</span> 
+        <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+    <div class="Hui-article">
+        <article class="cl pd-20">
+            <div id="dataChart" style="width:100%;height:600px"></div>
+        </article>
+        <footer class="footer">
+            <p></p>
+        </footer>
+    </div>
+</section>
+{{template "foot"}}
+<script type="text/javascript" src="/static/lib/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/static/lib/echarts/theme/purple.js"></script>
+<script type="text/javascript">
+//使用purple主题
+var tgChart = echarts.init(document.getElementById('dataChart'), 'purple');
+// 指定图表的配置项和数据
+var option = {
+	title : {
+		text: '某地区蒸发量和降水量',
+		subtext: '纯属虚构'
+	},
+	tooltip : {
+		trigger: 'axis'
+	},
+	legend: {
+		data:['蒸发量','降水量']
+	},
+	toolbox: {
+		show : true,
+		feature : {
+			mark : {show: true},
+			dataView : {show: true, readOnly: false},
+			magicType : {show: true, type: ['line', 'bar']},
+			restore : {show: true},
+			saveAsImage : {show: true}
+		}
+	},
+	calculable : true,
+	xAxis : [
+		{
+			type : 'category',
+			data : []
+		}
+	],
+	yAxis : [
+		{
+			type : 'value'
+		}
+	],
+	series : [
+		
+	]
+};
+
+// 使用刚指定的配置项和数据显示图表。
+tgChart.setOption(option);
+$(function(){
+	var url = "/Data/Json";
+	$.get(url,{},function(chd){
+		tgChart.setOption({
+			xAxis:{data:chd.xAxis},
+			series:chd.series
+		});	
+	},"json");	
+});
+</script>
+</body>
+</html>

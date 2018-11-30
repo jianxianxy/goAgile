@@ -15,6 +15,7 @@ go install config
 go install controller
 go install lib/tpe
 go install lib/db
+go install lib/unit
 go build server.go
 
 export GOPATH="$OLDGOPATH"

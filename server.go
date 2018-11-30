@@ -1,17 +1,18 @@
 package main
 
-import(
-    "fmt"
-    "controller"
-    "net/http"
+import (
+	"controller"
+	"fmt"
+	"net/http"
 )
 
-func main(){
-    
-    //启动静态文件服务
-    http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
-    
-    routeHandler()
+func main() {
+
+	//启动静态文件服务
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	http.Handle("/favicon.ico", http.StripPrefix("/favicon.ico", http.FileServer(http.Dir("static"))))
+
+	routeHandler()
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		fmt.Println("启动失败: ", err.Error())
@@ -20,7 +21,5 @@ func main(){
 
 //路由
 func routeHandler() {
-	http.HandleFunc("/", controller.IndexRun)
-	http.HandleFunc("/Index", controller.IndexRun)
-    http.HandleFunc("/Demo", controller.DemoRun)
+	http.HandleFunc("/", controller.RuteRun)
 }
