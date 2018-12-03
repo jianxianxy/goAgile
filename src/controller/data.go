@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"config"
 	"encoding/json"
 	"fmt"
 	"lib/tpe"
@@ -24,33 +25,44 @@ func (obj *Data) Index() {
 	view.Execute(obj.rp, locals)
 }
 
-//搜索 输出 json
-func (obj *Data) Json() {
+//统计图
+func (obj *Data) ChartJson() {
 	data := make(map[string]interface{})
-	xAxis := [12]string{"1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"}
-	data["xAxis"] = xAxis
-	y1 := [12]float32{2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3}
-	y2 := [12]float32{2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3}
+	sel := "SELECT *,DATE_FORMAT(`anday`,'%m.%d') AS `mday` FROM `data_chart` WHERE DATE_FORMAT(`anday`,'%Y-%m') = '2018-11' ORDER BY anday ASC"
+	mysql := config.DbSpider()
+	all := mysql.GetRow(sel)
+	xAxis := make([]string, 0)
+	yAdd := make([]string, 0)
+	yReduce := make([]string, 0)
+	if len(all) > 0 {
+		for _, val := range all {
+			xAxis = append(xAxis, val["mday"])
+			yAdd = append(yAdd, val["add"])
+			yReduce = append(yReduce, val["reduce"])
+		}
+		data["xAxis"] = xAxis
+		//平均线
+		markLine := make(map[string]interface{})
+		var lineCol = map[string]string{"type": "average", "name": "平均值"}
+		markLine["data"] = []map[string]string{lineCol}
+		//数据
+		var yAxis [2]interface{}
+		yAxis0 := make(map[string]interface{})
+		yAxis0["name"] = "新增"
+		yAxis0["type"] = "bar"
+		yAxis0["data"] = yAdd
+		yAxis0["markLine"] = markLine
+		yAxis1 := make(map[string]interface{})
+		yAxis1["name"] = "销售"
+		yAxis1["type"] = "bar"
+		yAxis1["data"] = yReduce
+		yAxis1["markLine"] = markLine
 
-	markLine := make(map[string]interface{})
-	var lineCol = map[string]string{"type": "average", "name": "平均值"}
-	markLine["data"] = []map[string]string{lineCol}
-	var yAxis [2]interface{}
-	yAxis0 := make(map[string]interface{})
-	yAxis0["name"] = "蒸发量"
-	yAxis0["type"] = "bar"
-	yAxis0["data"] = y1
-	yAxis0["markLine"] = markLine
-	yAxis1 := make(map[string]interface{})
-	yAxis1["name"] = "降水量"
-	yAxis1["type"] = "bar"
-	yAxis1["data"] = y2
-	yAxis1["markLine"] = markLine
+		yAxis[0] = yAxis0
+		yAxis[1] = yAxis1
 
-	yAxis[0] = yAxis0
-	yAxis[1] = yAxis1
-
-	data["series"] = yAxis
+		data["series"] = yAxis
+	}
 	ret, _ := json.Marshal(data)
 	fmt.Fprint(obj.rp, string(ret))
 }

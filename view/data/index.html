@@ -30,14 +30,14 @@ var tgChart = echarts.init(document.getElementById('dataChart'), 'purple');
 // 指定图表的配置项和数据
 var option = {
 	title : {
-		text: '某地区蒸发量和降水量',
-		subtext: '纯属虚构'
+		text: '承德二手房',
+		subtext: '热度'
 	},
 	tooltip : {
 		trigger: 'axis'
 	},
 	legend: {
-		data:['蒸发量','降水量']
+		data:['新增','销售']
 	},
 	toolbox: {
 		show : true,
@@ -69,7 +69,7 @@ var option = {
 // 使用刚指定的配置项和数据显示图表。
 tgChart.setOption(option);
 $(function(){
-	var url = "/Data/Json";
+	var url = "/Data/ChartJson";
 	$.get(url,{},function(chd){
 		tgChart.setOption({
 			xAxis:{data:chd.xAxis},

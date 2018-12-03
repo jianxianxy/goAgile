@@ -23,7 +23,7 @@ func (conn Mysql) Insert(table string, data map[string]interface{}) int {
 	var col, _col string
 	var din []interface{}
 	for key, val := range data {
-		col += key + ","
+		col += "`" + key + "`,"
 		_col += "?,"
 		din = append(din, val)
 	}
@@ -71,11 +71,11 @@ func (conn Mysql) Update(table string, data map[string]interface{}, wdata map[st
 	var col, where string
 	var cval []interface{}
 	for key, val := range data {
-		col += key + "=?,"
+		col += "`" + key + "`=?,"
 		cval = append(cval, val)
 	}
 	for key, val := range wdata {
-		where += " " + key + "=? AND"
+		where += " `" + key + "`=? AND"
 		cval = append(cval, val)
 	}
 	stmt, err := conn.db.Prepare(`UPDATE ` + table + ` SET ` + strings.Trim(col, ",") + ` WHERE ` + strings.Trim(where, "AND"))
@@ -92,7 +92,7 @@ func (conn Mysql) Remove(table string, wdata map[string]interface{}) int {
 	var where string
 	var cval []interface{}
 	for key, val := range wdata {
-		where += " " + key + "=? AND"
+		where += " `" + key + "`=? AND"
 		cval = append(cval, val)
 	}
 	stmt, err := conn.db.Prepare(`DELETE FROM ` + table + ` WHERE ` + strings.Trim(where, "AND"))
