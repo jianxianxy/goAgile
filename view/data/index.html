@@ -14,7 +14,11 @@
 	</nav>
     <div class="Hui-article">
         <article class="cl pd-20">
-            <div id="dataChart" style="width:100%;height:600px"></div>
+			<div> 选择日期：
+				<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM',isShowToday:false,lang:'zh-cn'})" id="selMonth" class="input-text Wdate" style="width:120px;">				
+				<button type="submit" class="btn btn-success radius" onclick="reChart()"><i class="Hui-iconfont">&#xe665;</i> 刷新</button>
+			</div>
+            <div class="mt-20" id="dataChart" style="width:100%;height:600px"></div>
         </article>
         <footer class="footer">
             <p></p>
@@ -22,6 +26,7 @@
     </div>
 </section>
 {{template "foot"}}
+<script type="text/javascript" src="/static/lib/My97DatePicker/4.8/WdatePicker.js"></script>
 <script type="text/javascript" src="/static/lib/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/static/lib/echarts/theme/purple.js"></script>
 <script type="text/javascript">
@@ -77,6 +82,17 @@ $(function(){
 		});	
 	},"json");	
 });
+
+function reChart(){
+	var mon = $("#selMonth").val();
+	var url = "/Data/ChartJson";
+	$.get(url,{"month":mon},function(chd){
+		tgChart.setOption({
+			xAxis:{data:chd.xAxis},
+			series:chd.series
+		});	
+	},"json");	
+}
 </script>
 </body>
 </html>

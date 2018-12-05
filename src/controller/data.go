@@ -27,8 +27,9 @@ func (obj *Data) Index() {
 
 //统计图
 func (obj *Data) ChartJson() {
+	month := ReqGet("month", obj.rq)
 	data := make(map[string]interface{})
-	sel := "SELECT *,DATE_FORMAT(`anday`,'%m.%d') AS `mday` FROM `data_chart` WHERE DATE_FORMAT(`anday`,'%Y-%m') = '2018-11' ORDER BY anday ASC"
+	sel := "SELECT *,DATE_FORMAT(`anday`,'%m.%d') AS `mday` FROM `data_chart` WHERE DATE_FORMAT(`anday`,'%Y-%m') = '" + month + "' ORDER BY anday ASC"
 	mysql := config.DbSpider()
 	all := mysql.GetRow(sel)
 	xAxis := make([]string, 0)
