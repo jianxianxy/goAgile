@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"lib/tpe"
 	"net/http"
+	"strings"
 )
 
 //基类
@@ -65,5 +66,31 @@ func (obj *Data) ChartJson() {
 		data["series"] = yAxis
 	}
 	ret, _ := json.Marshal(data)
+	fmt.Fprint(obj.rp, string(ret))
+}
+
+func (obj *Data) PriceChartJson() {
+	sel := "SELECT DISTINCT signkey FROM `data_price` ORDER BY id DESC"
+	mysql := config.DbSpider()
+	all := mysql.GetRow(sel)
+	retJson := make([]interface{}, 0)
+	if len(all) > 0 {
+		for _, val := range all {
+			selc := "SELECT * FROM data_price WHERE signkey = '" + val["signkey"] + "' ORDER BY DAY ASC"
+			data := mysql.GetRow(selc)
+			pct := make(map[string]interface{})
+			pct_time := make([]string, 0)
+			pct_price := make([]string, 0)
+			for _, v := range data {
+				pct_time = append(pct_time, strings.Replace(v["day"][2:], "-", ".", -1))
+				pct_price = append(pct_price, v["price"])
+			}
+			pct["name"] = data[0]["name"]
+			pct["time"] = pct_time
+			pct["price"] = pct_price
+			retJson = append(retJson, pct)
+		}
+	}
+	ret, _ := json.Marshal(retJson)
 	fmt.Fprint(obj.rp, string(ret))
 }

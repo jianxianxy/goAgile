@@ -15,10 +15,12 @@
     <div class="Hui-article">
         <article class="cl pd-20">
 			<div> 选择日期：
-				<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM',isShowToday:false,lang:'zh-cn'})" id="selMonth" class="input-text Wdate" style="width:120px;">				
+				<input type="text" value="2019-01" onfocus="WdatePicker({dateFmt:'yyyy-MM',isShowToday:false,lang:'zh-cn'})" id="selMonth" class="input-text Wdate" style="width:120px;">				
 				<button type="submit" class="btn btn-success radius" onclick="reChart()"><i class="Hui-iconfont">&#xe665;</i> 刷新</button>
 			</div>
-            <div class="mt-20" id="dataChart" style="width:100%;height:600px"></div>
+            <div class="mt-20" id="dataChart" style="width:100%;height:350px"></div>
+			
+			<div id="priceChart"></div>
         </article>
         <footer class="footer">
             <p></p>
@@ -29,6 +31,7 @@
 <script type="text/javascript" src="/static/lib/My97DatePicker/4.8/WdatePicker.js"></script>
 <script type="text/javascript" src="/static/lib/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/static/lib/echarts/theme/purple.js"></script>
+<script type="text/javascript" src="/static/lib/echarts/theme/walden.js"></script>
 <script type="text/javascript">
 //使用purple主题
 var tgChart = echarts.init(document.getElementById('dataChart'), 'purple');
@@ -74,13 +77,8 @@ var option = {
 // 使用刚指定的配置项和数据显示图表。
 tgChart.setOption(option);
 $(function(){
-	var url = "/Data/ChartJson";
-	$.get(url,{},function(chd){
-		tgChart.setOption({
-			xAxis:{data:chd.xAxis},
-			series:chd.series
-		});	
-	},"json");	
+	reChart();
+	disPriceChart();
 });
 
 function reChart(){
@@ -92,6 +90,55 @@ function reChart(){
 			series:chd.series
 		});	
 	},"json");	
+}
+</script>
+
+<script>
+
+function disPriceChart(){
+	var url = "/Data/PriceChartJson";
+	$.get(url,{},function(cob){
+		drawChart(cob);	
+	},"json");		
+}
+
+//动态画表
+function drawChart(cob){
+	for(var i in cob){
+		var cda = cob[i];
+		var did = 'pct'+i;
+		$("#priceChart").append('<div class="mt-20" id="'+did+'" style="width:260px;height:260px;float:left;"></div>');
+		var piopt= {
+		    title : {
+		        text: cda.name
+		    },
+		    tooltip : {
+		        trigger: 'axis'
+		    },
+		    xAxis : [
+		        {
+		            type : 'category',
+		            data : cda.time
+		        }
+		    ],
+		    yAxis : [
+		        {
+		            type : 'value'
+		        }
+		    ],
+		    series : [
+		        {
+		            name:'价格',
+		            type:'bar',
+					barWidth:20, //宽度
+					itemStyle : { normal: {label : {show: true, position: 'top'}}}, //显示详细
+		            data:cda.price,
+		        }
+		    ]
+		};
+		var piChart = echarts.init(document.getElementById(did), "walden");
+		piChart.setOption(piopt);
+	}
 }
 </script>
 </body>
