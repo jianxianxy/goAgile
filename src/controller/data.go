@@ -11,24 +11,24 @@ import (
 
 //基类
 type Data struct {
-	rp http.ResponseWriter
-	rq *http.Request
+	Rp http.ResponseWriter
+	Rq *http.Request
 }
 
 //首页
 func (obj *Data) Index() {
-	obj.rp.Header().Set("Content-Type", "text/html")
+	obj.Rp.Header().Set("Content-Type", "text/html")
 	//调用模版
 	view := tpe.Assign("data/index.html")
 	locals := make(map[string]interface{})
 	locals["title"] = "数据分析"
 	locals["info"] = []string{}
-	view.Execute(obj.rp, locals)
+	view.Execute(obj.Rp, locals)
 }
 
 //统计图
 func (obj *Data) ChartJson() {
-	month := ReqGet("month", obj.rq)
+	month := ReqGet("month", obj.Rq)
 	data := make(map[string]interface{})
 	sel := "SELECT *,DATE_FORMAT(`anday`,'%m.%d') AS `mday` FROM `data_chart` WHERE DATE_FORMAT(`anday`,'%Y-%m') = '" + month + "' ORDER BY anday ASC"
 	mysql := config.DbSpider()
@@ -66,7 +66,7 @@ func (obj *Data) ChartJson() {
 		data["series"] = yAxis
 	}
 	ret, _ := json.Marshal(data)
-	fmt.Fprint(obj.rp, string(ret))
+	fmt.Fprint(obj.Rp, string(ret))
 }
 
 func (obj *Data) PriceChartJson() {
@@ -92,5 +92,5 @@ func (obj *Data) PriceChartJson() {
 		}
 	}
 	ret, _ := json.Marshal(retJson)
-	fmt.Fprint(obj.rp, string(ret))
+	fmt.Fprint(obj.Rp, string(ret))
 }

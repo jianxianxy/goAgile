@@ -1,9 +1,9 @@
 package main
 
 import (
-	"controller"
 	"fmt"
 	"net/http"
+	"route"
 )
 
 func main() {
@@ -21,5 +21,5 @@ func main() {
 
 //路由
 func routeHandler() {
-	http.HandleFunc("/", controller.RuteRun)
+	http.HandleFunc("/", route.RouteRun)
 }
